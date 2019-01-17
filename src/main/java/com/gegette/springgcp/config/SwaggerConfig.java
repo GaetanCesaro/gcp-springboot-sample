@@ -38,7 +38,7 @@ public class SwaggerConfig {
     }
 
     private ApiInfo swaggerInfo() {
-        return new ApiInfo("SPRING-GCP - POC sur Spring embarqué à GCP AppEngine", "", "1.0",
+        return new ApiInfo("SPRING-GCP - POC Spring Boot embarqué à GCP AppEngine", "", "1.0",
                 "", null, "", "", Lists.newArrayList());
     }
 
