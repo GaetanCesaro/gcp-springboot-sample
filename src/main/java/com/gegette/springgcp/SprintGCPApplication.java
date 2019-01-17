@@ -1,20 +1,10 @@
 package com.gegette.springgcp;
 
-import com.gegette.springgcp.model.GroupDB;
-import com.gegette.springgcp.model.UserDB;
-import com.gegette.springgcp.service.IUserRepository;
-import com.gegette.springgcp.service.UserRepositoryService;
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.Arrays;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.gegette.springgcp"})
@@ -22,17 +12,11 @@ import java.util.Arrays;
 @Slf4j
 public class SprintGCPApplication {
 
-    @Autowired
-    private IUserRepository userRepository;
-
-    @Autowired
-    private UserRepositoryService userRepositoryService;
-
 	public static void main(String[] args) {
 		SpringApplication.run(SprintGCPApplication.class, args);
         log.info("--Application Started--");
 	}
-
+/*
     @Bean
     public CommandLineRunner commandLineRunner() {
         return (args) -> {
@@ -93,7 +77,7 @@ public class SprintGCPApplication {
             return null;
         });
     }
-
+*/
 
 }
 

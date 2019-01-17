@@ -1,6 +1,6 @@
-package com.gegette.springgcp;
+package com.gegette.springgcp.config;
 
-import com.gegette.springgcp.service.UserRepositoryService;
+import com.gegette.springgcp.service.impl.UserService;
 import com.google.cloud.datastore.Datastore;
 import org.springframework.cloud.gcp.data.datastore.core.DatastoreTransactionManager;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ public class RepositoryServiceConfiguration {
     }
 
     @Bean
-    public UserRepositoryService userRepositoryService() {
-        return new UserRepositoryService();
+    public UserService userRepositoryService() {
+        return new UserService();
     }
 }
