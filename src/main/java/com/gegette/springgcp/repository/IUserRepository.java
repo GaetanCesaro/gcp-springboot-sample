@@ -3,11 +3,13 @@ package com.gegette.springgcp.repository;
 import com.gegette.springgcp.model.UserDB;
 import org.springframework.cloud.gcp.data.datastore.repository.DatastoreRepository;
 
+import java.util.List;
+
 public interface IUserRepository extends DatastoreRepository<UserDB, String> {
 
-    UserDB findByFirstName(String search);
+    List<UserDB> findByFirstNameContaining(String search);
 
-    UserDB findByLastName(String search);
+    List<UserDB> findByLastNameContaining(String search);
 
-    UserDB findByMail(String search);
+    List<UserDB> findByMailContaining(String search);
 }

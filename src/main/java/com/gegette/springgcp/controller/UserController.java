@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
+
 @Slf4j
 @BasePathAwareController
 @RestController
@@ -28,12 +30,12 @@ public class UserController {
     private UserService userRepositoryService;
 
     @GetMapping(value = "/user/{search}")
-    @ApiOperation("Récupération d'un utilisateur à partir d'une recherche")
+    @ApiOperation("Recherche d'utilisateurs par un like sur leur nom, prénom ou mail")
     @ResponseBody
-    public ResponseEntity<UserDB> getUser(@PathVariable("search") String search) {
+    public ResponseEntity<Collection<UserDB>> getUsers(@PathVariable("search") String search) {
         try {
-            UserDB userDB = userRepositoryService.getUser(search);
-            return new ResponseEntity(userDB, HttpStatus.OK);
+            Collection<UserDB> usersDB = userRepositoryService.getUsers(search);
+            return new ResponseEntity(usersDB, HttpStatus.OK);
         } catch (UserNotFoundException dpnfe) {
             return new ResponseEntity(new BasicTypeResponseWrapper<String>(dpnfe.getMessage()), HttpStatus.NOT_FOUND);
         }

@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,24 +42,28 @@ public class UserServiceTest {
     public void test_getUser() {
         UserDB userDB = new UserDB(MAIL, LASTNAME, FIRSTNAME, GROUPS);
 
-        Mockito.when(userRepository.findByMail(Mockito.anyString())).thenReturn(userDB);
+        Mockito.when(userRepository.findByMailContaining(Mockito.anyString())).thenReturn(Arrays.asList(userDB));
+        Mockito.when(userRepository.findByLastNameContaining(Mockito.anyString())).thenReturn(Arrays.asList(userDB));
+        Mockito.when(userRepository.findByFirstNameContaining(Mockito.anyString())).thenReturn(Arrays.asList(userDB));
 
-        userDB = userService.getUser(MAIL);
+        List<UserDB> usersDB = userService.getUsers(LASTNAME);
 
-        Assert.assertEquals(MAIL, userDB.getMail());
-        Assert.assertEquals(LASTNAME, userDB.getLastName());
-        Assert.assertEquals(FIRSTNAME, userDB.getFirstName());
-        Assert.assertEquals(GROUPS, userDB.getGroups());
+        Assert.assertNotNull(usersDB);
+        Assert.assertNotNull(usersDB.get(0));
+        Assert.assertEquals(MAIL, usersDB.get(0).getMail());
+        Assert.assertEquals(LASTNAME, usersDB.get(0).getLastName());
+        Assert.assertEquals(FIRSTNAME, usersDB.get(0).getFirstName());
+        Assert.assertEquals(GROUPS, usersDB.get(0).getGroups());
     }
 
     @Test(expected = InvalidParameterException.class)
     public void test_getDemandePrelevement_search_null() {
-        userService.getUser(null);
+        userService.getUsers(null);
     }
 
     @Test(expected = UserNotFoundException.class)
     public void test_getDemandePrelevement_inconnu() {
-        userService.getUser(FIRSTNAME);
+        userService.getUsers(FIRSTNAME);
     }
 
     /**

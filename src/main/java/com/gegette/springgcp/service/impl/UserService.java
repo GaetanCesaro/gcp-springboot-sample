@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.InvalidParameterException;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service(value = "UserService")
@@ -19,17 +22,20 @@ public class UserService implements IUserService {
     private IUserRepository userRepository;
 
     @Override
-    public UserDB getUser(String mail) {
-        if (mail == null || "".equals(mail)) {
-            throw new InvalidParameterException("Le paramètre 'mail' ne doit pas être NULL");
+    public List<UserDB> getUsers(String search) {
+        if (search == null || "".equals(search)) {
+            throw new InvalidParameterException("Le paramètre 'search' ne doit pas être NULL");
         }
 
-        UserDB userDB = userRepository.findByMail(mail);
-        if(userDB == null) {
-            throw new UserNotFoundException(String.format("Aucun utilisateur n'a été trouvé pour la recherche %s", mail));
+        List<UserDB> usersDB = userRepository.findByMailContaining(search);
+        Stream.concat(usersDB.stream(), userRepository.findByFirstNameContaining(search).stream()).distinct().collect(Collectors.toList());
+        Stream.concat(usersDB.stream(), userRepository.findByLastNameContaining(search).stream()).distinct().collect(Collectors.toList());
+
+        if(usersDB != null && usersDB.isEmpty()) {
+            throw new UserNotFoundException(String.format("Aucun utilisateur n'a été trouvé pour la recherche %s", search));
         }
 
-        return userDB;
+        return usersDB;
     }
 
     @Override
